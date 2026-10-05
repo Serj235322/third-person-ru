@@ -1,0 +1,20 @@
+# Local build and release artifacts
+ThirdPerson.exe
+*.pdb
+*.zip
+build/
+dist/
+work/
+
+# Editor and operating system files
+.vs/
+.idea/
+*.user
+*.suo
+Thumbs.db
+Desktop.ini
+
+# Local documents and credentials must not enter the repository
+*.log
+.env
+.env.*

@@ -37,12 +37,19 @@ namespace ThirdPerson
 
         public MainForm()
         {
-            Text = "Третье лицо 1.2 — локальная обработка текста";
+            SuspendLayout();
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            Text = "Третье лицо 1.2.1 — локальная обработка текста";
+            using (Stream iconStream = typeof(MainForm).Assembly.GetManifestResourceStream("ThirdPerson.Icon.ico"))
+            using (Icon appIcon = new Icon(iconStream)) Icon = (Icon)appIcon.Clone();
             MinimumSize = new Size(880, 640); ClientSize = new Size(1120, 790);
             StartPosition = FormStartPosition.CenterScreen;
             Font = new Font("Segoe UI", 9F); ForeColor = textColor; BackColor = Color.FromArgb(242, 245, 249);
-            AutoScaleMode = AutoScaleMode.Dpi;
             BuildLayout();
+            ResumeLayout(true);
+            Load += delegate { ScaleReviewColumns(DeviceDpi); };
+            DpiChanged += delegate(object sender, DpiChangedEventArgs e) { ScaleReviewColumns(e.DeviceDpiNew); };
             worker.WorkerSupportsCancellation = true; worker.WorkerReportsProgress = true;
             worker.DoWork += ProcessText;
             worker.ProgressChanged += delegate(object sender, ProgressChangedEventArgs e) { progress.Value = e.ProgressPercentage; status.Text = "Обработка: " + e.ProgressPercentage + "%"; };
@@ -87,6 +94,13 @@ namespace ThirdPerson
             list.HideSelection = false; list.MultiSelect = false; list.VirtualMode = true; list.ShowItemToolTips = true;
             list.Columns.Add("Позиция", 85); list.Columns.Add("Исходное", 150); list.Columns.Add("Результат", 150); list.Columns.Add("Пояснение", 650);
             return list;
+        }
+        private void ScaleReviewColumns(int dpi)
+        {
+            int[] widths = { 85, 150, 150, 650 };
+            foreach (ListView list in new ListView[] { changes, issues })
+                for (int i = 0; i < widths.Length; i++)
+                    list.Columns[i].Width = (int)Math.Round(widths[i] * dpi / 96.0);
         }
         private void BuildLayout()
         {

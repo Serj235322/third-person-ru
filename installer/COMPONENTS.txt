@@ -1,0 +1,22 @@
+Компоненты установщика «Третье лицо»
+
+Приложение, код установщика и документация: MIT, см. LICENSE.
+Встроенные данные OpenCorpora: CC BY-SA 3.0, см. THIRD-PARTY.txt.
+
+Microsoft .NET Framework 4.8 Redistributable (офлайн-пакет x86/x64):
+© Microsoft Corporation. Распространяется на собственных условиях Microsoft.
+Лицензия MIT приложения на этот компонент не распространяется.
+При отсутствии Framework установщик запускает официальный мастер Microsoft;
+пользователь принимает его условия отдельно. Пакет включён без изменений.
+Источник:
+https://support.microsoft.com/en-us/servicing/dotnetframework/2019/10/microsoft-net-framework-4-8-offline-installer-for-windows
+SHA-256 пакета:
+0a3a390c47e639d0f7fc65b21195fee6b7f65b066f80f70c60fab191d14b7e40
+
+Установщик создан с помощью Inno Setup 6.7.3.
+© 1997–2026 Jordan Russell; © 2000–2026 Martijn Laan.
+https://jrsoftware.org/
+
+Удаление приложения не удаляет общий компонент .NET Framework: он может
+использоваться другими программами. Python, Microsoft Office, Visual C++
+Redistributable и современные .NET SDK/Runtime для запуска приложения не нужны.

@@ -1,7 +1,7 @@
 ; Native bootstrapper: this EXE can start before .NET Framework is installed.
 ; Compile with Build-Installer.ps1. Test builds are isolated at compile time.
 #ifndef AppVersion
-  #define AppVersion "1.2.0"
+  #define AppVersion "1.2.1"
 #endif
 #ifndef AppRoot
   #define AppRoot SourcePath + ".."
@@ -58,6 +58,7 @@ RestartApplications=no
 AllowNoIcons=no
 VersionInfoVersion={#AppVersion}.0
 VersionInfoDescription=Установка приложения «Третье лицо»
+SetupIconFile={#AppRoot}\assets\ThirdPerson.ico
 
 [Languages]
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
@@ -69,6 +70,7 @@ Name: "desktopicon"; Description: "Создать ярлык на рабочем
 ; Framework is extracted only when needed and is never left in the app folder.
 Source: "{#FrameworkPath}"; DestName: "NDP48-x86-x64-AllOS-ENU.exe"; Flags: dontcopy nocompression
 Source: "{#AppRoot}\ThirdPerson.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#AppRoot}\ThirdPerson.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#AppRoot}\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#AppRoot}\THIRD-PARTY.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#AppRoot}\docs\USER_GUIDE.md"; DestDir: "{app}"; DestName: "Инструкция.txt"; Flags: ignoreversion

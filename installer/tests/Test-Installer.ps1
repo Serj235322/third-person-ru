@@ -90,7 +90,7 @@ foreach ($case in $cases) {
         Assert-Check ($exitCode -eq $expectedExitCode) "$name setup exit code $expectedExitCode"
         $installedApp = Join-Path $appDirectory 'ThirdPerson.exe'
         Assert-Check ((Get-FileHash -LiteralPath $installedApp).Hash -eq $originalHash) "$name exact application payload"
-        foreach ($file in @('LICENSE', 'THIRD-PARTY.txt', 'COMPONENTS.txt', 'Инструкция.txt', 'unins000.exe')) {
+        foreach ($file in @('LICENSE', 'THIRD-PARTY.txt', 'COMPONENTS.txt', 'Инструкция.txt', 'unins000.exe', 'ThirdPerson.exe.config')) {
             Assert-Check (Test-Path -LiteralPath (Join-Path $appDirectory $file)) "$name installed $file"
         }
         foreach ($link in @($desktopLink, $menuLink)) {
@@ -119,6 +119,9 @@ foreach ($case in $cases) {
             $engineReport = Join-Path $runRoot 'installed-engine-test.txt'
             $engineCode = Invoke-TestProcess $installedApp @('--self-test', ('"{0}"' -f $engineReport))
             Assert-Check ($engineCode -eq 0) 'installed application engine tests'
+            $dpiReport = Join-Path $runRoot 'installed-dpi-test.txt'
+            $dpiCode = Invoke-TestProcess $installedApp @('--dpi-test', ('"{0}"' -f $dpiReport))
+            Assert-Check ($dpiCode -eq 0) 'installed application DPI configuration and layout'
         }
         Uninstall-TestApp $appDirectory $name
         if ($name -eq 'missing-success') {

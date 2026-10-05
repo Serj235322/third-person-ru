@@ -1,0 +1,43 @@
+name: Build and test Windows
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Build
+        run: ./Build.ps1
+      - name: Test engine
+        run: |
+          $reportPath = Join-Path $env:RUNNER_TEMP 'engine-test.txt'
+          $appPath = Join-Path (Get-Location) 'ThirdPerson.exe'
+          $test = Start-Process -FilePath $appPath -ArgumentList '--self-test', $reportPath -Wait -PassThru
+          Get-Content -LiteralPath $reportPath
+          if ($test.ExitCode -ne 0) { throw 'Engine tests failed' }
+      - name: Prepare portable application
+        run: |
+          New-Item -ItemType Directory -Path dist -Force | Out-Null
+          Copy-Item -LiteralPath ThirdPerson.exe,LICENSE,THIRD-PARTY.txt -Destination dist
+          Copy-Item -LiteralPath docs/USER_GUIDE.md -Destination dist/Инструкция.txt
+          Copy-Item -LiteralPath docs/VALIDATION-1.2.txt -Destination dist/VALIDATION-1.2.txt
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ThirdPerson-Windows
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14

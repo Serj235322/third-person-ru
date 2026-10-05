@@ -8,6 +8,10 @@ $dictionaryPath = Join-Path $appRoot 'Verbs.tsv'
 if (-not (Test-Path -LiteralPath $dictionaryPath)) { throw 'Отсутствует Verbs.tsv.' }
 $agreementPath = Join-Path $appRoot 'Agreement.tsv'
 if (-not (Test-Path -LiteralPath $agreementPath)) { throw 'Отсутствует Agreement.tsv.' }
-& $compiler /nologo /target:winexe /platform:x86 /optimize+ /utf8output /reference:System.dll /reference:System.Core.dll /reference:System.Drawing.dll /reference:System.Windows.Forms.dll "/resource:$dictionaryPath,ThirdPerson.Verbs.tsv" "/resource:$agreementPath,ThirdPerson.Agreement.tsv" "/out:$binaryPath" $sourceFiles
+$iconPath = Join-Path $appRoot 'assets\ThirdPerson.ico'
+$manifestPath = Join-Path $appRoot 'src\app.manifest'
+$configPath = Join-Path $appRoot 'src\app.config'
+& $compiler /nologo /target:winexe /platform:x86 /optimize+ /utf8output /reference:System.dll /reference:System.Core.dll /reference:System.Drawing.dll /reference:System.Windows.Forms.dll "/win32manifest:$manifestPath" "/win32icon:$iconPath" "/resource:$iconPath,ThirdPerson.Icon.ico" "/resource:$dictionaryPath,ThirdPerson.Verbs.tsv" "/resource:$agreementPath,ThirdPerson.Agreement.tsv" "/out:$binaryPath" $sourceFiles
 if ($LASTEXITCODE -ne 0) { throw 'Ошибка сборки.' }
+Copy-Item -LiteralPath $configPath -Destination ($binaryPath + '.config') -Force
 Write-Output "Собрано: $binaryPath"

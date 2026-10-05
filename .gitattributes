@@ -7,4 +7,5 @@
 *.tsv text eol=lf
 *.json text eol=lf
 *.exe binary
+*.ico binary
 *.zip binary

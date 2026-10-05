@@ -1,5 +1,7 @@
 # Local build and release artifacts
 ThirdPerson.exe
+ThirdPerson-Setup-*.exe
+installer/dependencies/
 *.pdb
 *.zip
 build/

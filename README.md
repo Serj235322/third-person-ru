@@ -42,7 +42,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1
 
 ```powershell
 $report = Join-Path (Get-Location) 'engine-test.txt'
-$test = Start-Process .\ThirdPerson.exe -ArgumentList '--self-test', $report -Wait -PassThru
+$test = Start-Process .\ThirdPerson.exe -ArgumentList '--self-test', ('"{0}"' -f $report) -Wait -PassThru
 Get-Content $report
 if ($test.ExitCode -ne 0) { throw 'Проверка не прошла' }
 ```

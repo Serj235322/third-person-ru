@@ -1,0 +1,38 @@
+﻿Отчёт ниже относится к исходной сборке от 2 октября 2026 года. Повторная сборка 5 октября прошла 1210 проверок обработчика; её хеш указан в SHA256.txt в архиве релиза. Хеш EXE меняется при пересборке.
+
+Третье лицо 1.2 — проверка обновления
+
+Изменения: добавлены ограниченные правила ближайшего контекста для омонимов «мой / мою / моем», «еду», «дам», «плачу», «узнаю», а также некоторых распространённых словарных форм после явного «я». Примеры: «Мой телефон остался дома» → «Его / Её телефон остался дома», «Я купил еду» сохраняет существительное без замечания, «Я еду в Москву» → «Он едет в Москву», «Я плачу за аренду» → «Он платит за аренду».
+
+Учебный пример при правильном выборе пола: число замечаний сократилось с четырёх до одного. Осталась неопределённая группа «Мы с Петровым». При выборе «Она» для мужского исходника все три прежние проверки рода («приехал», «видел», «купил») сохраняются. Женский пример содержит «Она купила еду» и «Она платит за аренду».
+
+Неоднозначные смыслы без подходящего контекста не скрываются: «Я плачу» требует выбора, «Я плачу за погибшего» не превращается в оплату. Защищённые цитаты остаются прежними. Отрицания и данные текста сохраняются. Полного синтаксического и смыслового анализа нет; редкие смыслы и необычный порядок слов могут дать ошибку. Нужна вычитка результата.
+
+Под списком замечаний доступны выбор варианта, «Применить», «Оставить как есть», «Отменить решение». Проверены последовательные исправления, укорочение и удлинение слова, переносы строк, точность оставшихся позиций, приоритетные замечания о роде, отмена замены и подтверждения исходной формы. При нескольких вариантах требуется явный выбор. Изменение исходника, свободное редактирование результата или настроек отключает кнопки решений, относящихся к прежней обработке. Проверено размещение кнопок при минимальном размере окна.
+
+Нагрузочная проверка: почти 5 миллионов символов. Каждый абзац результата обработчика сравнивается с ожидаемым. Оконный тест проверяет полный результат без обрезания, отмену и состояния кнопок.
+
+Измерения на проверочном компьютере: обработчик — около 87 МиБ пик рабочего набора и 0,52 секунды на словарные замены; окно на этапе большого текста — около 253 МиБ пик рабочего набора. Вставка и отображение большого текста заметно медленнее самих замен. Это не замеры на физическом ПК с 2 ГБ ОЗУ.
+
+Технические отчёты:
+Engine benchmark: 4 999 888 source characters; 32 894 paragraphs.
+Time: 0,52 seconds.
+Peak working set: 86,8 MiB; peak paged/private allocation: 73,2 MiB.
+Managed memory now: 51,8 MiB.
+PASS: 1210 assertions. Known verb entries (including aliases): 65467.
+Benchmark describes this host, not a measured 2 GB target PC. Review is required; the finite dictionary cannot detect every first-person verb.
+
+PASS: native window construction, async conversion, busy/completed controls, editable result, review navigation.
+Source: 4966994; output: 5098570 characters (not truncated).
+GUI peak working set: 253,3 MiB; peak paged/private allocation: 290,5 MiB.
+PASS: edits invalidate stale source references and review positions.
+PASS: cancellation leaves prior result unchanged.
+PASS: reported female/male sample has 3 highlighted review issues and persistent gender warning.
+PASS: Example button follows female selection; female sample says Она купила and has no gender mismatch warning.
+PASS: built-in example review reduced from 4 notices to 1 (group membership); contextual food, possession and payment resolved.
+PASS: explicit variant selection, consecutive corrections, shorter replacement, next issue navigation, keep original, and undo; all retained positions remain exact.
+PASS: source edits, free output edits and option changes disable suggestions tied to an old result.
+PASS: review controls fit the minimum window size without overlapping the list.
+Clipboard and external files were not touched. Testing host is not a 2 GB target PC.
+
+SHA-256 ThirdPerson.exe: F129D2B8AB1840EC31C530EE9DF0C729FA9B30A97B3DF7772A860F65EF9123C7
